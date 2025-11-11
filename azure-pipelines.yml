@@ -1,19 +1,74 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
+# File: .ado/android-ci.yml
 trigger:
-- master
+  branches:
+    include:
+      - main
+      - develop
+
+pr:
+  branches:
+    include:
+      - main
+      - develop
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: 'ubuntu-latest'
+
+variables:
+  GRADLE_OPTS: "-Dorg.gradle.daemon=false"
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+# Use JDK 17 (avoids KAPT/JDK 21 build failures)
+- task: JavaToolInstaller@0
+  inputs:
+    versionSpec: '17'
+    jdkArchitectureOption: 'x64'
+    jdkSourceOption: 'PreInstalled'
+  displayName: 'Use JDK 17'
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+# Optional: Gradle cache to speed up builds
+- task: Cache@2
+  inputs:
+    key: 'gradle | "$(Agent.OS)" | **/gradle-wrapper.properties'
+    restoreKeys: 'gradle | "$(Agent.OS)"'
+    path: ~/.gradle/caches
+  displayName: 'Cache Gradle'
+
+# Build, run unit tests, and lint
+- task: Gradle@3
+  inputs:
+    gradleWrapperFile: 'android/gradlew'   # <-- CHANGE if your gradle wrapper is elsewhere
+    workingDirectory: 'android'            # <-- CHANGE to your Android project root
+    publishJUnitResults: true
+    testResultsFiles: '**/test-results/testDebugUnitTest/*.xml'
+    tasks: |
+      clean
+      testDebugUnitTest
+      lint
+      assembleRelease
+  env:
+    JAVA_HOME: $(JAVA_HOME_17_X64)
+  displayName: 'Gradle build, tests, lint (debug) & assembleRelease'
+
+# Publish Lint reports (HTML/XML) so you can download them from the job
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: 'android/app/build/reports'   # <-- adjust app module path if different
+    ArtifactName: 'android-reports'
+  displayName: 'Publish lint/test reports'
+
+# (Optional) Publish JaCoCo code coverage if configured
+- task: PublishCodeCoverageResults@2
+  inputs:
+    codeCoverageTool: 'JaCoCo'
+    summaryFileLocation: 'android/app/build/reports/jacoco/testDebugUnitTest/testDebugUnitTest.xml'
+    reportDirectory: 'android/app/build/reports/jacoco'
+    failIfCoverageEmpty: false
+  displayName: 'Publish code coverage (JaCoCo)'
+
+# Publish built APK/AAB as pipeline artifacts
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: 'android/app/build/outputs'
+    ArtifactName: 'android-artifacts'
+  displayName: 'Publish APK/AAB artifacts'
