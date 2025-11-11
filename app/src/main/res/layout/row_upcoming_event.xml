@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="12dp"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <!-- Poster (optional) -->
+    <ImageView
+        android:id="@+id/ivPoster"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:scaleType="centerCrop"
+        android:contentDescription="@string/app_name"
+        android:layout_marginEnd="12dp"
+        android:background="#11000000" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tvWhereWhen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp" />
+
+        <TextView
+            android:id="@+id/tvMeta"
+            android:textSize="12sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/btnGoing"
+                android:text="RSVP: Going"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+
+            <View android:layout_width="8dp" android:layout_height="0dp"/>
+
+            <Button
+                android:id="@+id/btnInterested"
+                android:text="Interested"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

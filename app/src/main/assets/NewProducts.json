@@ -1,0 +1,54 @@
+[
+  {
+    "productName": "Phantoms Basketball Set",
+    "productId": "1",
+    "productPrice": "599",
+    "productDes": "Two-piece Phantoms kit (jersey + shorts). Lightweight, breathable fabric designed for practice and game day.",
+    "productRating": 4.8,
+    "productDisCount": "10%",
+    "productHave": true,
+    "productBrand": "Phantoms",
+    "productImage": "res://boys_2p",
+    "productCategory": "Clothing",
+    "productNote": "Official Teamwear"
+  },
+  {
+    "productName": "Phantoms Logo Cap (Red)",
+    "productId": "2",
+    "productPrice": "149",
+    "productDes": "Classic 6-panel cap with embroidered Phantoms crest. Adjustable strap for a comfy fit.",
+    "productRating": 4.6,
+    "productDisCount": "",
+    "productHave": true,
+    "productBrand": "Phantoms",
+    "productImage": "res://red_cap",
+    "productCategory": "Accessories",
+    "productNote": "Fan Favourite"
+  },
+  {
+    "productName": "Phantoms Graphic Tee (White)",
+    "productId": "3",
+    "productPrice": "199",
+    "productDes": "Soft cotton T-shirt with the 2024 Phantoms community logo. Regular fit, everyday comfort.",
+    "productRating": 4.7,
+    "productDisCount": "15%",
+    "productHave": true,
+    "productBrand": "Phantoms",
+    "productImage": "res://wt_short",
+    "productCategory": "Clothing",
+    "productNote": "Bestseller"
+  },
+  {
+    "productName": "Bear Forest Throw Pillow",
+    "productId": "4",
+    "productPrice": "229",
+    "productDes": "Decor cushion with geometric bear and pine motif. Plush cover with concealed zip.",
+    "productRating": 4.4,
+    "productDisCount": "",
+    "productHave": true,
+    "productBrand": "Phantoms Home",
+    "productImage": "res://bp_bear",
+    "productCategory": "Home Decor",
+    "productNote": "Cozy Pick"
+  }
+]

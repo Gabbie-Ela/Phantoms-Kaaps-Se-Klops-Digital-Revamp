@@ -1,0 +1,54 @@
+[
+  {
+    "productName": "Phantoms Basketball Kit (Jersey & Shorts)",
+    "productId": "101",
+    "productPrice": "599",
+    "productDes": "Full Phantoms game kit: breathable mesh jersey and matching shorts. Colourway: white/red/blue. Sizes S–XL.",
+    "productRating": 4.8,
+    "productDisCount": "",
+    "productHave": true,
+    "productBrand": "Phantoms",
+    "productImage": "res://boys_2p",
+    "productCategory": "Apparel",
+    "productNote": "Home Kit"
+  },
+  {
+    "productName": "Phantoms Snapback Cap",
+    "productId": "102",
+    "productPrice": "199",
+    "productDes": "Structured 6-panel snapback with embroidered Phantoms mark. One size fits most.",
+    "productRating": 4.6,
+    "productDisCount": "",
+    "productHave": true,
+    "productBrand": "Phantoms",
+    "productImage": "res://red_cap",
+    "productCategory": "Accessories",
+    "productNote": "Snapback"
+  },
+  {
+    "productName": "Motivational Mug – BEST IS YET TO COME",
+    "productId": "103",
+    "productPrice": "149",
+    "productDes": "Ceramic 350 ml mug. Dishwasher and microwave safe. Printed both sides.",
+    "productRating": 4.5,
+    "productDisCount": "",
+    "productHave": true,
+    "productBrand": "Phantoms",
+    "productImage": "res://w_mug",
+    "productCategory": "Home",
+    "productNote": "Mug"
+  },
+  {
+    "productName": "Phantoms Logo Tee (White)",
+    "productId": "104",
+    "productPrice": "249",
+    "productDes": "Classic cotton tee with the 2024 Phantoms crest. Unisex fit, sizes S–XXL.",
+    "productRating": 4.7,
+    "productDisCount": "",
+    "productHave": true,
+    "productBrand": "Phantoms",
+    "productImage": "res://wt_short",
+    "productCategory": "Apparel",
+    "productNote": "Logo Tee"
+  }
+]

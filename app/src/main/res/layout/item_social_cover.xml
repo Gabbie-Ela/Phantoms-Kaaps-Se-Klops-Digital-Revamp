@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/igCard"
+    android:layout_width="300dp"
+    android:layout_height="180dp"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp"
+    app:cardCornerRadius="16dp"
+    app:cardUseCompatPadding="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/igLogo"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:contentDescription="Instagram"
+                android:src="@android:drawable/ic_menu_share" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="12dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/igTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Post title"
+                    android:textStyle="bold"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/igSubtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@phantoms_community"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/igOpenBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Open"
+            style="?attr/materialButtonOutlinedStyle"/>
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>
