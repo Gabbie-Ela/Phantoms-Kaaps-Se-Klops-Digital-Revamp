@@ -45,6 +45,7 @@
         <activity android:name=".presentation.activity.HomeActivity" />
         <activity android:name=".presentation.activity.SignUpActivity" />
         <activity android:name=".presentation.activity.LoginActivity" />
+
     </application>
 
 </manifest>

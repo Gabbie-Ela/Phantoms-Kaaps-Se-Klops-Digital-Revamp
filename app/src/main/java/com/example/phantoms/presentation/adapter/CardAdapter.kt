@@ -62,25 +62,22 @@ class CardAdapter(private val ctx: Context, val listener: CarDItemClickAdapter) 
             holder.layD.visibility = View.GONE
         }
 
-       // holder.checkbox.setOnClickListener {
 
-//            val editor:SharedPreferences.Editor =  defaultCard.edit()
-//            if(holder.checkbox.isChecked){
-//                holder.checkbox.isChecked = false
-//                editor.putBoolean("isHaveDefaultCard",false)
-//                editor.putString("cardNumber","")
-//
-//            }
-//            else{
-//                holder.checkbox.isChecked = true
-//                editor.putBoolean("isHaveDefaultCard",true)
-//                editor.putString("cardNumber",cardItem.number)
-//
-//            }
-//            editor.apply()
-//            editor.commit()
+        holder.itemView.setOnLongClickListener {
+            val popup = PopupMenu(ctx, it)
+            popup.menu.add("Edit")
+            popup.menu.add("Delete")
+            popup.setOnMenuItemClickListener { m ->
+                when (m.title) {
+                    "Edit" -> listener.onItemUpdateClick(cardItem)
+                    "Delete" -> listener.onItemDeleteClick(cardItem)
+                }
+                true
+            }
+            popup.show()
+            true
+        }
 
-      //  }
 
     }
 

@@ -47,28 +47,57 @@
     </LinearLayout>
 
 
+    <TextView
+        android:id="@+id/shippingAddressSummaryTv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        android:text="No address selected"
+        android:textColor="@color/mainText"
+        android:fontFamily="@font/metropolis_regular"
+        app:layout_constraintTop_toBottomOf="@id/linearLayout9"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+    <!-- Move your RecyclerView to sit under the summary -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/cardRecView_paymentMethodPage"
-        android:layout_marginTop="30dp"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        tools:listitem="@layout/single_card"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="12dp"
+        app:layout_constraintTop_toBottomOf="@id/shippingAddressSummaryTv"
+        app:layout_constraintBottom_toTopOf="@id/payBtn"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout9" />
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:listitem="@layout/single_card" />
 
 
 
+    <!-- NEW: Pay button -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/payBtn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="Pay now"
+        android:fontFamily="@font/metropolis_semibold"
+        style="@style/Widget.MaterialComponents.Button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/addCard_PaymentMethodPage" />
+
+    <!-- Your existing FAB stays -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addCard_PaymentMethodPage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:src="@drawable/ic_baseline_add_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

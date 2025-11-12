@@ -1,12 +1,14 @@
 package com.example.phantoms.presentation.fragment
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
@@ -26,6 +28,7 @@ import com.example.phantoms.R
 
 import com.example.phantoms.data.local.room.CartViewModel
 import com.example.phantoms.data.local.room.ProductEntity
+import com.example.phantoms.presentation.activity.ShipingAddressActivity
 
 class BagFragment : Fragment(), CartItemClickAdapter {
 
@@ -97,7 +100,14 @@ class BagFragment : Fragment(), CartItemClickAdapter {
             totalPriceBagFrag.text = "R" + sum
         })
 
-
+        val checkoutBtn: Button = view.findViewById(R.id.checkOut_BagPage)
+        checkoutBtn.setOnClickListener {
+            // Pass the total to shipping (optional)
+            val ctx = requireContext()
+            val i = Intent(ctx, ShipingAddressActivity::class.java)
+            i.putExtra("total_cents", sum) // or cents/whole number as you use
+            startActivity(i)
+        }
 
 
         return view

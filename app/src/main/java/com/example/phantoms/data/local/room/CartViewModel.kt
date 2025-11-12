@@ -29,4 +29,12 @@ class CartViewModel(application: Application) : AndroidViewModel(application){
     fun updateCart(product: ProductEntity) = viewModelScope.launch(Dispatchers.IO) {
         repository.update(product)
     }
+
+    // NEW: clear the entire cart
+    fun clearAll() = viewModelScope.launch(Dispatchers.IO) {
+        repository.clearAll()
+    }
+
+    // NEW: one-shot fetch (call from a coroutine)
+    suspend fun getAllNow(): List<ProductEntity> = repository.getAllNow()
 }

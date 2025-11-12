@@ -169,37 +169,35 @@ class LoginActivity : AppCompatActivity() {
         signInPassword = passEt.text.toString().trim()
         firebaseAuth.signInWithEmailAndPassword(signInEmail, signInPassword)
                 .addOnCompleteListener { signIn ->
-                    if (signIn.isSuccessful) {
+                    loadingDialog.dismissDialog()
+                    val i = Intent(this, HomeActivity::class.java).apply {
+                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                    }
+                    startActivity(i)
+                    toast("signed in successfully")
+                    finish() // safe redundancy
 
-                        loadingDialog.dismissDialog()
+
+                    /*
+                    if(FirebaseUtils.firebaseUser?.isEmailVerified == true){
                         startActivity(Intent(this, HomeActivity::class.java))
+                        loadingDialog.dismissDialog()
                         toast("signed in successfully")
                         finish()
-
-                        /*
-                        if(FirebaseUtils.firebaseUser?.isEmailVerified == true){
-                            startActivity(Intent(this, HomeActivity::class.java))
-                            loadingDialog.dismissDialog()
-                            toast("signed in successfully")
-                            finish()
-                        }
-                        else {
-                            loadingDialog.dismissDialog()
-                            val intent = Intent(this, EmailVerifyActivity::class.java)
-                            intent.putExtra("EmailAddress", emailEt.text.toString().trim())
-                            intent.putExtra("loginPassword", passEt.text.toString().trim())
-                            startActivity(intent)
-                        }
-
-                        */
-
-                    } else {
-                        toast("sign in failed")
+                    }
+                    else {
                         loadingDialog.dismissDialog()
+                        val intent = Intent(this, EmailVerifyActivity::class.java)
+                        intent.putExtra("EmailAddress", emailEt.text.toString().trim())
+                        intent.putExtra("loginPassword", passEt.text.toString().trim())
+                        startActivity(intent)
+                    }
+
+                    */
+
                     }
                 }
         }
 
 
 
-}

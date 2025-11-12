@@ -13,4 +13,22 @@
     <string name="empty_favourite">Empty Favourite</string>
     <string name="add_to_bag">Add To Bag</string>
     <string name="card_number_star">**** **** **** </string>
+    <string name="profile_upload">Upload</string>
+    <string name="uploading_ellipsis">Uploading…</string>
+    <!-- Shipping / Address -->
+    <string name="title_add_address">Add Address</string>
+    <string name="title_shipping_addresses">Shipping Address</string>
+    <string name="hint_address">Address (street, suburb, city, postal code)</string>
+    <string name="hint_phone">Phone number</string>
+    <string name="btn_save_address">Save address</string>
+
+    <string name="msg_address_saved">Address saved</string>
+    <string name="msg_no_address">No address saved yet</string>
+    <string name="placeholder_no_address_line">Address not set</string>
+    <string name="placeholder_no_phone_line">Phone not set</string>
+
+    <string name="err_not_signed_in">Please sign in to continue.</string>
+    <string name="err_address_required">Address is required</string>
+    <string name="err_phone_required">Phone number is required</string>
+    <string name="err_generic">Something went wrong</string>
 </resources>

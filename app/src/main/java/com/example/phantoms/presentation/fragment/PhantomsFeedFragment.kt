@@ -12,7 +12,6 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import android.widget.Button
 import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -44,8 +43,6 @@ class PhantomsFeedFragment : Fragment() {
         rvEvents = v.findViewById(R.id.rvEvents)
         webView = v.findViewById(R.id.tiktokWebView)
         progress = v.findViewById(R.id.tiktokProgress)
-
-
 
         setupEventsList()
         setupTikTokWebView()
@@ -83,12 +80,13 @@ class PhantomsFeedFragment : Fragment() {
         with(webView.settings) {
             javaScriptEnabled = true
             domStorageEnabled = true
-            mediaPlaybackRequiresUserGesture = false
+            // Require a user tap before video/audio to avoid unexpected launches/gestures
+            mediaPlaybackRequiresUserGesture = true
             loadWithOverviewMode = true
             useWideViewPort = true
             mixedContentMode = WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE
-            userAgentString = WebSettings.getDefaultUserAgent(requireContext())
-                .replace("wv", "") + " TikTok/28.0.0 Mobile Safari"
+            // Neutral UA: remove "wv" and DO NOT append any TikTok/mobile Safari tokens
+            userAgentString = WebSettings.getDefaultUserAgent(requireContext()).replace("wv", "")
             setSupportMultipleWindows(true)
         }
 
@@ -103,7 +101,8 @@ class PhantomsFeedFragment : Fragment() {
                 resultMsg: android.os.Message?
             ): Boolean {
                 val transport = resultMsg?.obj as? WebView.WebViewTransport ?: return false
-                transport.webView = webView // keep links in same WebView
+                // Keep links in the same WebView
+                transport.webView = webView
                 resultMsg.sendToTarget()
                 return true
             }
@@ -118,28 +117,8 @@ class PhantomsFeedFragment : Fragment() {
                 // Allow normal web links inside WebView
                 if (scheme == "http" || scheme == "https") return false
 
-                // Handle intent:// deep links
-                if (scheme == "intent") {
-                    try {
-                        val intent = Intent.parseUri(url.toString(), Intent.URI_INTENT_SCHEME)
-                        intent.`package`?.let {
-                            try { startActivity(intent); return true } catch (_: Exception) {}
-                        }
-                        intent.getStringExtra("browser_fallback_url")?.let { fb ->
-                            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(fb))); return true
-                        }
-                        intent.`package`?.let { pkg ->
-                            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$pkg"))); return true
-                        }
-                    } catch (_: Exception) {}
-                    return true
-                }
-
-                // Handle TikTok custom schemes externally
-                if (scheme.startsWith("snssdk") || scheme == "tiktok") {
-                    try { startActivity(Intent(Intent.ACTION_VIEW, url)) } catch (_: Exception) {}
-                    return true
-                }
+                // Block deep links / custom schemes so we don't jump to the TikTok app (or others)
+                if (scheme == "intent" || scheme == "tiktok" || scheme.startsWith("snssdk")) return true
 
                 // Block any other unknown schemes
                 return true
@@ -150,25 +129,7 @@ class PhantomsFeedFragment : Fragment() {
                 val u = url ?: return false
                 val scheme = Uri.parse(u).scheme?.lowercase() ?: return false
                 if (scheme == "http" || scheme == "https") return false
-                if (scheme == "intent") {
-                    try {
-                        val intent = Intent.parseUri(u, Intent.URI_INTENT_SCHEME)
-                        intent.`package`?.let {
-                            try { startActivity(intent); return true } catch (_: Exception) {}
-                        }
-                        intent.getStringExtra("browser_fallback_url")?.let { fb ->
-                            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(fb))); return true
-                        }
-                        intent.`package`?.let { pkg ->
-                            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$pkg"))); return true
-                        }
-                    } catch (_: Exception) {}
-                    return true
-                }
-                if (scheme.startsWith("snssdk") || scheme == "tiktok") {
-                    try { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(u))) } catch (_: Exception) {}
-                    return true
-                }
+                if (scheme == "intent" || scheme == "tiktok" || scheme.startsWith("snssdk")) return true
                 return true
             }
 
@@ -187,7 +148,7 @@ class PhantomsFeedFragment : Fragment() {
         catch (_: ActivityNotFoundException) { /* ignore */ }
     }
 
-    // --- Open in TikTok app (best-effort with graceful fallbacks) ---
+    // --- Optional helper for a dedicated "Open in TikTok app" button elsewhere ---
     private fun isAppInstalled(pkg: String): Boolean =
         try { requireContext().packageManager.getPackageInfo(pkg, 0); true } catch (_: Exception) { false }
 
@@ -210,8 +171,10 @@ class PhantomsFeedFragment : Fragment() {
             "snssdk1128://user/profile"
         )
         for (dl in deepLinks) {
-            try { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(dl)).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)); return }
-            catch (_: Exception) {}
+            try {
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(dl)).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+                return
+            } catch (_: Exception) { /* keep trying */ }
         }
 
         try { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(fallbackUrl)).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)) }

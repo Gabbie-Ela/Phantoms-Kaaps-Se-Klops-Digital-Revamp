@@ -85,14 +85,12 @@ class EmailVerifyActivity : AppCompatActivity() {
 
                 firebaseAuth.signInWithEmailAndPassword(EmailAddress, loginPassword)
                     .addOnCompleteListener { signIn ->
-                        if (signIn.isSuccessful) {
-                            startActivity(Intent(this, HomeActivity::class.java))
-                            toast("signed in successfully")
-                            finish()
-                        } else {
-                            toast("sign in failed")
+                        startActivity(Intent(this, HomeActivity::class.java).apply {
+                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                        })
+                        toast("signed in successfully")
+                        finish()
 
-                        }
                     }
 
             }, 2000)

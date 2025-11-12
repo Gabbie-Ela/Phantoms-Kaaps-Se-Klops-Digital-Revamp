@@ -26,23 +26,13 @@ class SplashScreenActivity : AppCompatActivity() {
     }
 
     private fun checkUser() {
-        /*
-        if(FirebaseUtils.firebaseUser?.isEmailVerified == true){
-            val intent = Intent(this, HomeActivity::class.java)
-            startActivity(intent)
-            finish()
+        val next = if (FirebaseUtils.firebaseUser == null) {
+            Intent(this, LoginActivity::class.java)
+        } else {
+            Intent(this, HomeActivity::class.java)
         }
-*/
-        if(FirebaseUtils.firebaseUser != null){
-            val intent = Intent(this, HomeActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
-        if(FirebaseUtils.firebaseUser == null){
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
-
+        next.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        startActivity(next)
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
     }
 }
