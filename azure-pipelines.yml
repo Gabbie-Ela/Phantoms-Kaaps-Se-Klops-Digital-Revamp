@@ -1,74 +1,158 @@
-# File: .ado/android-ci.yml
 trigger:
   branches:
     include:
       - main
-      - develop
 
 pr:
   branches:
     include:
       - main
-      - develop
 
 pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+  ANDROID_SDK_ROOT: '$(Agent.TempDirectory)/android-sdk'
 
 steps:
-# Use JDK 17 (avoids KAPT/JDK 21 build failures)
-- task: JavaToolInstaller@0
-  inputs:
-    versionSpec: '17'
-    jdkArchitectureOption: 'x64'
-    jdkSourceOption: 'PreInstalled'
-  displayName: 'Use JDK 17'
+  - checkout: self
+    fetchDepth: 0
 
-# Optional: Gradle cache to speed up builds
-- task: Cache@2
-  inputs:
-    key: 'gradle | "$(Agent.OS)" | **/gradle-wrapper.properties'
-    restoreKeys: 'gradle | "$(Agent.OS)"'
-    path: ~/.gradle/caches
-  displayName: 'Cache Gradle'
+  # Use preinstalled JDK 17 (compatible with AGP 8.4.x)
+  - task: UseJavaVersion@1
+    displayName: 'Use JDK 17'
+    inputs:
+      versionSpec: '17'
+      jdkArchitectureOption: 'x64'
+      jdkSourceOption: 'PreInstalled'
 
-# Build, run unit tests, and lint
-- task: Gradle@3
-  inputs:
-    gradleWrapperFile: 'android/gradlew'   # <-- CHANGE if your gradle wrapper is elsewhere
-    workingDirectory: 'android'            # <-- CHANGE to your Android project root
-    publishJUnitResults: true
-    testResultsFiles: '**/test-results/testDebugUnitTest/*.xml'
-    tasks: |
-      clean
-      testDebugUnitTest
-      lint
-      assembleRelease
-  env:
-    JAVA_HOME: $(JAVA_HOME_17_X64)
-  displayName: 'Gradle build, tests, lint (debug) & assembleRelease'
+  # Install Android SDK command-line tools and required packages
+  - task: Bash@3
+    displayName: 'Install Android SDK (cmdline-tools) and packages'
+    inputs:
+      targetType: 'inline'
+      script: |
+        set -eux
 
-# Publish Lint reports (HTML/XML) so you can download them from the job
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: 'android/app/build/reports'   # <-- adjust app module path if different
-    ArtifactName: 'android-reports'
-  displayName: 'Publish lint/test reports'
+        mkdir -p "$ANDROID_SDK_ROOT/cmdline-tools"
+        curl -L https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip -o cmdtools.zip
+        unzip -q cmdtools.zip -d "$ANDROID_SDK_ROOT/cmdline-tools"
+        mv "$ANDROID_SDK_ROOT/cmdline-tools/cmdline-tools" "$ANDROID_SDK_ROOT/cmdline-tools/latest"
+        rm -f cmdtools.zip
 
-# (Optional) Publish JaCoCo code coverage if configured
-- task: PublishCodeCoverageResults@2
-  inputs:
-    codeCoverageTool: 'JaCoCo'
-    summaryFileLocation: 'android/app/build/reports/jacoco/testDebugUnitTest/testDebugUnitTest.xml'
-    reportDirectory: 'android/app/build/reports/jacoco'
-    failIfCoverageEmpty: false
-  displayName: 'Publish code coverage (JaCoCo)'
+        echo "##vso[task.prependpath]$ANDROID_SDK_ROOT/platform-tools"
+        echo "##vso[task.prependpath]$ANDROID_SDK_ROOT/cmdline-tools/latest/bin"
+        echo "##vso[task.prependpath]$ANDROID_SDK_ROOT/emulator"
 
-# Publish built APK/AAB as pipeline artifacts
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: 'android/app/build/outputs'
-    ArtifactName: 'android-artifacts'
-  displayName: 'Publish APK/AAB artifacts'
+        yes | sdkmanager --licenses
+        sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0"
+
+  # Gradle cache
+  - task: Cache@2
+    displayName: 'Cache Gradle'
+    inputs:
+      key: 'gradle | "$(Agent.OS)" | **/*.gradle* | **/gradle-wrapper.properties'
+      restoreKeys: |
+        gradle | "$(Agent.OS)"
+      path: |
+        ~/.gradle/caches
+        ~/.gradle/wrapper
+        **/.gradle
+
+  # Ensure gradlew is executable
+  - task: Bash@3
+    displayName: 'Gradle wrapper permissions'
+    inputs:
+      targetType: 'inline'
+      script: chmod +x ./gradlew
+
+  # Assemble Debug APK
+  - task: Gradle@3
+    displayName: 'Assemble Debug'
+    inputs:
+      gradleWrapperFile: 'gradlew'
+      workingDirectory: ''
+      tasks: 'assembleDebug'
+      publishJUnitResults: false
+      javaHomeOption: 'JDKVersion'
+      jdkVersionOption: '1.17'
+      sonarQubeRunAnalysis: false
+
+  # Run unit tests (OK if there are none yet)
+  - task: Gradle@3
+    displayName: 'Unit tests (testDebugUnitTest)'
+    inputs:
+      gradleWrapperFile: 'gradlew'
+      tasks: 'testDebugUnitTest'
+      publishJUnitResults: true
+      testResultsFiles: '**/TEST-*.xml'
+      javaHomeOption: 'JDKVersion'
+      jdkVersionOption: '1.17'
+
+  # Android Lint on Debug
+  - task: Gradle@3
+    displayName: 'Android Lint (lintDebug)'
+    inputs:
+      gradleWrapperFile: 'gradlew'
+      tasks: 'lintDebug'
+      publishJUnitResults: false
+      javaHomeOption: 'JDKVersion'
+      jdkVersionOption: '1.17'
+
+  # Publish Debug APK artifact
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Debug APK'
+    inputs:
+      PathtoPublish: 'app/build/outputs/apk/debug'
+      ArtifactName: 'apk'
+      publishLocation: 'Container'
+
+  # --- Optional: Build and publish Release bundle (unsigned) ---
+  # - task: Gradle@3
+  #   displayName: 'Bundle Release (AAB)'
+  #   inputs:
+  #     gradleWrapperFile: 'gradlew'
+  #     tasks: 'bundleRelease'
+  #     javaHomeOption: 'JDKVersion'
+  #     jdkVersionOption: '1.17'
+  #
+  # - task: PublishBuildArtifacts@1
+  #   displayName: 'Publish Release AAB'
+  #   inputs:
+  #     PathtoPublish: 'app/build/outputs/bundle/release'
+  #     ArtifactName: 'aab'
+  #     publishLocation: 'Container'
+
+  # --- Optional: Instrumentation tests on emulator (advanced) ---
+  # Running an emulator in Azure DevOps requires AVD setup and headless boot.
+  # Uncomment and adjust if/when you add connected tests:
+  #
+  # - task: Bash@3
+  #   displayName: 'Create AVD and start emulator (API 30)'
+  #   inputs:
+  #     targetType: 'inline'
+  #     script: |
+  #       set -eux
+  #       sdkmanager "system-images;android-30;default;x86_64" "platforms;android-30"
+  #       echo "no" | avdmanager create avd -n test -k "system-images;android-30;default;x86_64" --device "pixel"
+  #       $ANDROID_SDK_ROOT/emulator/emulator -list-avds
+  #       nohup $ANDROID_SDK_ROOT/emulator/emulator -avd test -no-window -no-audio -gpu swiftshader_indirect -netfast -no-snapshot &
+  #       adb wait-for-device
+  #       adb shell settings put global window_animation_scale 0
+  #       adb shell settings put global transition_animation_scale 0
+  #       adb shell settings put global animator_duration_scale 0
+  #       # Give the emulator time to boot fully
+  #       adb shell getprop init.svc.bootanim
+  #       for i in {1..60}; do
+  #         boot_completed=$(adb shell getprop sys.boot_completed | tr -d '\r')
+  #         if [ "$boot_completed" = "1" ]; then echo "Boot complete"; break; fi
+  #         sleep 5
+  #       done
+  #
+  # - task: Gradle@3
+  #   displayName: 'Connected UI tests'
+  #   inputs:
+  #     gradleWrapperFile: 'gradlew'
+  #     tasks: 'connectedDebugAndroidTest'
+  #     javaHomeOption: 'JDKVersion'
+  #     jdkVersionOption: '1.17'
