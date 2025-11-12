@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "779751781429",
+    "firebase_url": "https://phantoms-24a04-default-rtdb.firebaseio.com",
+    "project_id": "phantoms-24a04",
+    "storage_bucket": "phantoms-24a04.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:779751781429:android:5ae428ff03c56476d8ad7c",
+        "android_client_info": {
+          "package_name": "com.example.phantoms"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBcnqq4CHfrNd6efaq-qv7IbUcWOHL_B_g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
