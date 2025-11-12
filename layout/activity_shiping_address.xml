@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    tools:context=".presentation.activity.ShipingAddressActivity">
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/title_Shipping"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/title_shipping_addresses"
+        android:textSize="22sp"
+        android:textColor="@color/mainText"
+        android:fontFamily="@font/metropolis_regular"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Address list -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/addressRec"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:clipToPadding="false"
+        tools:listitem="@layout/item_address"
+        app:layout_constraintTop_toBottomOf="@id/title_Shipping"
+        app:layout_constraintBottom_toTopOf="@+id/addAddress_ShippingPage"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Empty state (shown when list is empty) -->
+    <LinearLayout
+        android:id="@+id/emptyState_Shipping"
+        android:visibility="gone"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/title_Shipping"
+        app:layout_constraintBottom_toTopOf="@+id/addAddress_ShippingPage"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Reuse your existing empty text id -->
+        <TextView
+            android:id="@+id/emptyTv_Shipping"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/msg_no_address"
+            android:textColor="@color/textAd"
+            android:textSize="14sp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp" />
+
+        <!-- Optional: keep these as preview-only placeholders (not shown by default) -->
+        <TextView
+            android:id="@+id/addressTv_Shipping"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/mainText"
+            android:textSize="16sp"
+            android:visibility="gone"
+            tools:text="123 Victoria Rd, Hout Bay, Cape Town, 7806" />
+
+        <TextView
+            android:id="@+id/phoneTv_Shipping"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textAd"
+            android:textSize="14sp"
+            android:visibility="gone"
+            tools:text="+27 82 123 4567" />
+    </LinearLayout>
+
+    <!-- Progress while fetching -->
+    <ProgressBar
+        android:id="@+id/progress_Shipping"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/title_Shipping"
+        app:layout_constraintBottom_toTopOf="@+id/addAddress_ShippingPage"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp" />
+
+    <!-- Add new address -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/addAddress_ShippingPage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_baseline_add_24"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/continueBtn_ShippingPage"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="Continue"
+        style="@style/Widget.MaterialComponents.Button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

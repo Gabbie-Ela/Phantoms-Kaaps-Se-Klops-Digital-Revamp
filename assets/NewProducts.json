@@ -1,0 +1,81 @@
+[
+  {
+    "productName": "Phantoms Limited Edition Formal Blazer Set",
+    "productId": "10",
+    "productPrice": "1799",
+    "productDes": "Limited edition formal blazer and trouser set featuring a vibrant print pattern. Premium tailoring for special appearances, events, and performances.",
+    "productRating": 4.9,
+    "productDisCount": "Limited",
+    "productHave": true,
+    "productBrand": "Phantoms",
+    "productImage": "res://new_full_kit",
+    "productCategory": "Clothing",
+    "productNote": "Limited Release"
+  },
+  {
+    "productName": "Phantoms Training Tracksuit (White/Navy)",
+    "productId": "11",
+    "productPrice": "749",
+    "productDes": "Official Phantoms training tracksuit. Breathable performance fabric ideal for training, rehearsals, and community events.",
+    "productRating": 4.8,
+    "productDisCount": "New",
+    "productHave": true,
+    "productBrand": "Phantoms",
+    "productImage": "res://new_full_track",
+    "productCategory": "Clothing",
+    "productNote": "Official Teamwear"
+  },
+
+  {
+    "productName": "Phantoms Navy Cap",
+    "productId": "13",
+    "productPrice": "159",
+    "productDes": "Navy 6-panel cap featuring the Phantoms theatre mask crest. Adjustable strap.",
+    "productRating": 4.7,
+    "productDisCount": "New",
+    "productHave": true,
+    "productBrand": "Phantoms",
+    "productImage": "res://new_navy_cap",
+    "productCategory": "Accessories",
+    "productNote": "Popular Item"
+  },
+  {
+    "productName": "Phantoms Bucket Hat (Orange)",
+    "productId": "14",
+    "productPrice": "139",
+    "productDes": "Bright orange bucket hat with embroidered Phantoms Community Development logo. Casual and sun-safe.",
+    "productRating": 4.7,
+    "productDisCount": "New",
+    "productHave": true,
+    "productBrand": "Phantoms",
+    "productImage": "res://new_orange_bucket_hat",
+    "productCategory": "Accessories",
+    "productNote": "Summer Essential"
+  },
+  {
+    "productName": "Phantoms Graphic T-Shirt (White)",
+    "productId": "16",
+    "productPrice": "199",
+    "productDes": "Soft cotton tee featuring the 2024 Phantoms Community logo. Everyday fit and comfort.",
+    "productRating": 4.8,
+    "productDisCount": "New",
+    "productHave": true,
+    "productBrand": "Phantoms",
+    "productImage": "res://new_white_t",
+    "productCategory": "Clothing",
+    "productNote": "Bestseller"
+  },
+  {
+    "productName": "Phantoms Puffer Jacket (Black)",
+    "productId": "17",
+    "productPrice": "899",
+    "productDes": "Warm and lightweight puffer jacket with embroidered Phantoms crest. Perfect for winter community events.",
+    "productRating": 4.9,
+    "productDisCount": "New",
+    "productHave": true,
+    "productBrand": "Phantoms",
+    "productImage": "res://new_winter_anorack",
+    "productCategory": "Clothing",
+    "productNote": "Winter Drop"
+  }
+]

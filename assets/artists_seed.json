@@ -1,0 +1,81 @@
+{
+  "artists": [
+    {
+      "id": 1,
+      "name": "Phantoms",
+      "imageUrl": null,
+      "startYear": 2016,
+      "firstAlbumDate": "2019-09-01",
+      "bio": "Alt-pop from Cape Town",
+      "members": [
+        {
+          "id": 1,
+          "fullName": "Zanele Dlamini",
+          "roleTitle": "Vocals"
+        },
+        {
+          "id": 2,
+          "fullName": "Pieter Van der Merwe",
+          "roleTitle": "Guitar"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Aurora",
+      "startYear": 2012,
+      "firstAlbumDate": "2016-03-11",
+      "bio": "Indie electropop"
+    }
+  ],
+  "locations": [
+    {
+      "id": 1,
+      "venueName": "Athlone Stadium",
+      "city": "Cape Town",
+      "region": "WC",
+      "country": "South Africa",
+      "tz": "Africa/Johannesburg",
+      "latitude": -33.955,
+      "longitude": 18.497
+    },
+    {
+      "id": 2,
+      "venueName": "Ellis Park Arena",
+      "city": "Johannesburg",
+      "region": "GP",
+      "country": "South Africa",
+      "tz": "Africa/Johannesburg",
+      "latitude": -26.201,
+      "longitude": 28.059
+    }
+  ],
+  "concerts": [
+    {
+      "id": 1,
+      "startUtc": "2025-12-05T18:00:00Z",
+      "status": "SCHEDULED",
+      "isSoldOut": false
+    },
+    {
+      "id": 2,
+      "startUtc": "2025-12-05T18:00:00Z",
+      "status": "SCHEDULED",
+      "isSoldOut": false
+    }
+  ],
+  "artist_concerts": [
+    {
+      "artistId": 1,
+      "concertId": 1,
+      "locationId": 1,
+      "tourName": "Summer Lights"
+    },
+    {
+      "artistId": 1,
+      "concertId": 2,
+      "locationId": 2,
+      "tourName": "Summer Lights"
+    }
+  ]
+}
